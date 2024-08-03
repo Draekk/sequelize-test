@@ -1,3 +1,4 @@
+const sequelize = require("../config/database");
 const User = require("../models/user");
 const { Op } = require("sequelize");
 
@@ -82,4 +83,21 @@ async function destroy(id) {
   }
 }
 
-module.exports = { save, findAll, findById, update, destroy, findByUsername };
+async function rawQuery(query) {
+  try {
+    return await sequelize.query(query);
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
+module.exports = {
+  save,
+  findAll,
+  findById,
+  update,
+  destroy,
+  findByUsername,
+  rawQuery,
+};
