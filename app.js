@@ -3,22 +3,11 @@ const path = require("path");
 const app = express();
 const sequelize = require("./config/database");
 const User = require("./models/user");
-const repository = require("./repositories/userRepository");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", async (req, res) => {
-  console.log(await repository.findById(1));
-  console.log(
-    await repository.update({
-      id: 2,
-      username: "Agustin",
-      password: "agus6592",
-    })
-  );
-  console.log(await repository.destroy(2));
-  console.log(await repository.findAll());
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 

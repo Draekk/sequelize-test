@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { Op } = require("sequelize");
 
 async function save(user) {
   try {
@@ -26,6 +27,21 @@ async function findById(id) {
     return await User.findAll({
       where: {
         id,
+      },
+    });
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
+async function findByUsername(username) {
+  try {
+    return await User.findAll({
+      where: {
+        username: {
+          [Op.substring]: username,
+        },
       },
     });
   } catch (error) {
@@ -66,4 +82,4 @@ async function destroy(id) {
   }
 }
 
-module.exports = { save, findAll, findById, update, destroy };
+module.exports = { save, findAll, findById, update, destroy, findByUsername };
