@@ -8,7 +8,7 @@ const sequelize = new Sequelize("db_sequelize_test", "custom_user", "1234", {
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Connection established.");
+    console.log("Connection established...");
   })
   .catch((err) => {
     console.error("Connection failed.", err);
