@@ -35,4 +35,14 @@ async function getUserById({ id }) {
   }
 }
 
-module.exports = { createUser, getUsers, getUserById };
+async function getUserByUsername({ username }) {
+  try {
+    const res = await repository.findByUsername(username);
+    return res.length > 0 ? res.map((e) => utils.getUserFromPromise(e)) : null;
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
+module.exports = { createUser, getUsers, getUserById, getUserByUsername };

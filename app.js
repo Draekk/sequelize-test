@@ -7,15 +7,15 @@ const service = require("./services/userService");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.get("/users/:id", async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  res.status(200).send(await service.getUserById({ id }));
+app.get("/users/username", async (req, res) => {
+  const username = req.body.username;
+  res.status(200).send(await service.getUserByUsername({ username }));
 });
 
 app.listen(3000, () => {
