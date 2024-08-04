@@ -20,4 +20,10 @@ const User = sequelize.define(
   }
 );
 
+User.sync()
+  .then((table) => {
+    console.log(`Table ${table} created successfully`);
+  })
+  .catch((err) => console.error(err));
+
 module.exports = User;
