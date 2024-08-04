@@ -9,11 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", async (req, res) => {
-  console.log(
-    await service.createUser(
-      JSON.stringify({ username: "eli2", password: "an523" })
-    )
-  );
+  console.log(await service.getUsers());
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
