@@ -8,9 +8,14 @@ const service = require("./services/userService");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/", async (req, res) => {
-  console.log(await service.getUsers());
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.get("/users/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  res.status(200).send(await service.getUserById({ id }));
 });
 
 app.listen(3000, () => {

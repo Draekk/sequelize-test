@@ -25,4 +25,14 @@ async function getUsers() {
   }
 }
 
-module.exports = { createUser, getUsers };
+async function getUserById({ id }) {
+  try {
+    const res = await repository.findById(id);
+    return res.length === 1 ? utils.getUserFromPromise(res[0]) : null;
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
+module.exports = { createUser, getUsers, getUserById };
