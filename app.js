@@ -18,6 +18,18 @@ app.get("/users/username/:username", async (req, res) => {
   res.status(200).send(await service.getUserByUsername({ username }));
 });
 
+app.put("/users/edit", async (req, res) => {
+  const user = req.body;
+  console.log(user);
+  return res.status(200).send(
+    await service.editUser({
+      id: user.id,
+      username: user.username,
+      password: user.password,
+    })
+  );
+});
+
 app.listen(3000, () => {
   console.log("Server listening on port: 3000...");
 });

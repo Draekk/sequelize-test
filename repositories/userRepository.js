@@ -53,17 +53,11 @@ async function findByUsername(username) {
 
 async function update(user) {
   try {
-    return await User.update(
-      {
-        username: user.username,
-        password: user.password,
+    return await User.update(user, {
+      where: {
+        id: user.id,
       },
-      {
-        where: {
-          id: user.id,
-        },
-      }
-    );
+    });
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;

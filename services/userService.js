@@ -1,3 +1,4 @@
+const User = require("../models/user");
 const repository = require("../repositories/userRepository");
 const utils = require("../utils/utils");
 
@@ -45,4 +46,27 @@ async function getUserByUsername({ username }) {
   }
 }
 
-module.exports = { createUser, getUsers, getUserById, getUserByUsername };
+async function editUser({ id, username, password }) {
+  try {
+    const user = User.build({
+      id: parseInt(id),
+      username,
+      password,
+    });
+    console.log(user.dataValues);
+    const res = await repository.update(user.dataValues);
+    console.log(res);
+    return res[0] === 1 ? user.dataValues : null;
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
+module.exports = {
+  createUser,
+  getUsers,
+  getUserById,
+  getUserByUsername,
+  editUser,
+};
