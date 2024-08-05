@@ -1,4 +1,6 @@
 const btnGetAll = document.getElementById("btn-get");
+const fId = document.querySelector("#find-id input");
+const fbutton = document.querySelector("#find-id button");
 const btnFetch = document.getElementById("btn-fetch");
 const input = document.getElementById("input-username");
 const eId = document.querySelector("#edit-user input:nth-child(1)");
@@ -13,6 +15,10 @@ const dButton = document.querySelector("#delete-user button");
 
 btnGetAll.addEventListener("click", async () => {
   console.log(await fetchGetAll());
+});
+
+fbutton.addEventListener("click", async () => {
+  console.log(await fetchGetId());
 });
 
 btnFetch.addEventListener("click", async () => {
@@ -33,14 +39,20 @@ dButton.addEventListener("click", async () => {
 });
 
 async function fetchGetAll() {
-  const res = await fetch("/users/all");
+  const res = await fetch("/api/user/find/all");
+  const data = await res.json();
+  return data;
+}
+
+async function fetchGetId() {
+  const res = await fetch(`/api/user/find/id/${fId.value}`);
   const data = await res.json();
   return data;
 }
 
 async function fetchData() {
   try {
-    const res = await fetch(`/users/username/${input.value.trim()}`);
+    const res = await fetch(`/api/user/find/username/${input.value.trim()}`);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -50,7 +62,7 @@ async function fetchData() {
 }
 
 async function fetchEdit() {
-  const res = await fetch("/users/edit", {
+  const res = await fetch("/api/user/edit", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -66,7 +78,7 @@ async function fetchEdit() {
 }
 
 async function fetchCreate() {
-  const res = await fetch("/users/create", {
+  const res = await fetch("/api/user/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -81,7 +93,7 @@ async function fetchCreate() {
 }
 
 async function fetchDelete() {
-  const res = await fetch(`/users/delete/${dId.value}`, {
+  const res = await fetch(`/api/user/delete/id/${dId.value}`, {
     method: "DELETE",
   });
   const data = res.json();
