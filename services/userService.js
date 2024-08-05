@@ -53,7 +53,7 @@ async function getUserByUsername({ username }) {
 async function editUser({ id, username, password }) {
   try {
     const user = User.build({
-      id: parseInt(id),
+      id,
       username,
       password,
     });
