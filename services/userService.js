@@ -10,7 +10,7 @@ async function createUser({ username, password }) {
     });
     const res = await repository.save(user.dataValues);
     const data = utils.getUserFromPromise(res);
-    return JSON.stringify(data);
+    return data;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -43,9 +43,7 @@ async function getUserById({ id }) {
 async function getUserByUsername({ username }) {
   try {
     const res = await repository.findByUsername(username);
-    return res.length > 0
-      ? JSON.stringify(res.map((e) => utils.getUserFromPromise(e)))
-      : null;
+    return res.length > 0 ? res.map((e) => utils.getUserFromPromise(e)) : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -61,7 +59,7 @@ async function editUser({ id, username, password }) {
     });
     console.log(user.dataValues);
     const res = await repository.update(user.dataValues);
-    return res[0] === 1 ? JSON.stringify(user.dataValues) : null;
+    return res[0] === 1 ? user.dataValues : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -71,10 +69,10 @@ async function editUser({ id, username, password }) {
 async function deleteUser({ id }) {
   try {
     const res = await repository.destroy(parseInt(id));
-    return res === 1 ? JSON.stringify({ msg: "User deleted" }) : null;
+    return res === 1 ? true : false;
   } catch (error) {
     console.error("An error has occurred:", error);
-    return null;
+    return false;
   }
 }
 
