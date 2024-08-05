@@ -2,9 +2,13 @@ const User = require("../models/user");
 const repository = require("../repositories/userRepository");
 const utils = require("../utils/utils");
 
-async function createUser(json) {
+async function createUser({ username, password }) {
   try {
-    const res = await repository.save(JSON.parse(json));
+    const user = User.build({
+      username,
+      password,
+    });
+    const res = await repository.save(user.dataValues);
     const data = utils.getUserFromPromise(res);
     return JSON.stringify(data);
   } catch (error) {
@@ -29,7 +33,9 @@ async function getUsers() {
 async function getUserById({ id }) {
   try {
     const res = await repository.findById(id);
-    return res.length === 1 ? utils.getUserFromPromise(res[0]) : null;
+    return res.length === 1
+      ? JSON.stringify(utils.getUserFromPromise(res[0]))
+      : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -39,7 +45,9 @@ async function getUserById({ id }) {
 async function getUserByUsername({ username }) {
   try {
     const res = await repository.findByUsername(username);
-    return res.length > 0 ? res.map((e) => utils.getUserFromPromise(e)) : null;
+    return res.length > 0
+      ? JSON.stringify(res.map((e) => utils.getUserFromPromise(e)))
+      : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -55,8 +63,17 @@ async function editUser({ id, username, password }) {
     });
     console.log(user.dataValues);
     const res = await repository.update(user.dataValues);
-    console.log(res);
-    return res[0] === 1 ? user.dataValues : null;
+    return res[0] === 1 ? JSON.stringify(user.dataValues) : null;
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
+async function deleteUser({ id }) {
+  try {
+    const res = await repository.destroy(parseInt(id));
+    return res === 1 ? JSON.stringify({ msg: "User deleted" }) : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -69,4 +86,5 @@ module.exports = {
   getUserById,
   getUserByUsername,
   editUser,
+  deleteUser,
 };

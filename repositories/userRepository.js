@@ -4,10 +4,7 @@ const { Op } = require("sequelize");
 
 async function save(user) {
   try {
-    return await User.create({
-      username: user.username,
-      password: user.password,
-    });
+    return await User.create(user);
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -68,7 +65,7 @@ async function destroy(id) {
   try {
     return await User.destroy({
       where: {
-        id,
+        id: id,
       },
     });
   } catch (error) {
