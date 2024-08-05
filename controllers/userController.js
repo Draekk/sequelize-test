@@ -3,9 +3,16 @@ const service = require("../services/userService");
 async function getUsers(req, res) {
   try {
     const data = await service.getUsers();
-    res.status(200).json({
-      success: true,
-      data,
+    if (data) {
+      return res.status(200).json({
+        success: true,
+        message: "Users found!",
+        data,
+      });
+    }
+    return res.status(404).json({
+      success: false,
+      message: "Users not found...",
     });
   } catch (error) {
     res.status(500).json({
@@ -22,14 +29,13 @@ async function getUserById(req, res) {
     if (data) {
       return res.status(200).json({
         success: true,
-        message: "User found",
+        message: "User found!",
         data,
       });
     }
     return res.status(404).json({
       success: false,
-      message: "User not found",
-      data,
+      message: "User not found...",
     });
   } catch (error) {
     return res.status(500).json({
@@ -46,14 +52,13 @@ async function getUsersByUsername(req, res) {
     if (data) {
       return res.status(200).json({
         success: true,
-        message: "Users found",
+        message: "Users found!",
         data,
       });
     }
     return res.status(404).json({
       success: false,
-      message: "Users not found",
-      data,
+      message: "Users not found...",
     });
   } catch (error) {
     return res.status(500).json({
@@ -70,14 +75,13 @@ async function createUser(req, res) {
     if (data) {
       return res.status(202).json({
         success: true,
-        message: "User created successfully",
+        message: "User created successfully!",
         data,
       });
     }
     return res.status(400).json({
       success: false,
-      message: "User not created",
-      data,
+      message: "User not created...",
     });
   } catch (error) {
     return res.status(500).json({
@@ -94,14 +98,13 @@ async function editUser(req, res) {
     if (data) {
       return res.status(202).json({
         success: true,
-        message: "User updated successfully",
+        message: "User updated successfully!",
         data,
       });
     }
     return res.status(404).json({
       success: false,
-      message: "User not found",
-      data,
+      message: "User not found...",
     });
   } catch (error) {
     return res.status(500).json({
@@ -118,12 +121,12 @@ async function deleteUser(req, res) {
     if (data) {
       return res.status(200).json({
         success: true,
-        message: "User deleted successfully",
+        message: "User deleted successfully!",
       });
     }
     return res.status(404).json({
       success: false,
-      message: "User not found",
+      message: "User not found...",
     });
   } catch (error) {
     return res.status(500).json({
