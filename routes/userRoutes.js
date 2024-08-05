@@ -2,6 +2,9 @@ const express = require("express");
 const fs = require("fs");
 const router = express.Router();
 const controller = require("../controllers/userController");
+const {
+  userPropertyValidation,
+} = require("../middlewares/validationMiddleware");
 
 router.use(function timelog(req, res, next) {
   fs.appendFileSync("timelog.md", "> " + new Date().toString() + "\n");
@@ -14,9 +17,9 @@ router.get("/find/id/:id", controller.getUserById);
 
 router.get("/find/username/:username", controller.getUsersByUsername);
 
-router.post("/create", controller.createUser);
+router.post("/create", userPropertyValidation, controller.createUser);
 
-router.put("/edit", controller.editUser);
+router.put("/edit", userPropertyValidation, controller.editUser);
 
 router.delete("/delete/id/:id", controller.deleteUser);
 
