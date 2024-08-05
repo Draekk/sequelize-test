@@ -23,7 +23,7 @@ async function getUsers() {
     const data = res.map((e) => {
       return utils.getUserFromPromise(e);
     });
-    return JSON.stringify(data);
+    return data;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -33,9 +33,7 @@ async function getUsers() {
 async function getUserById({ id }) {
   try {
     const res = await repository.findById(id);
-    return res.length === 1
-      ? JSON.stringify(utils.getUserFromPromise(res[0]))
-      : null;
+    return res.length === 1 ? utils.getUserFromPromise(res[0]) : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;

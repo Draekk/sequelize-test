@@ -2,19 +2,16 @@ const express = require("express");
 const fs = require("fs");
 const router = express.Router();
 const service = require("../services/userService");
+const controller = require("../controllers/userController");
 
 router.use(function timelog(req, res, next) {
   fs.appendFileSync("timelog.md", "> " + new Date().toString() + "\n");
   next();
 });
 
-router.get("/find/all", async (req, res) => {
-  return res.send(await service.getUsers());
-});
+router.get("/find/all", controller.getUsers);
 
-router.get("/find/id/:id", async (req, res) => {
-  return res.send(await service.getUserById({ id: req.params.id }));
-});
+router.get("/find/id/:id", controller.getUserById);
 
 router.get("/find/username/:username", async (req, res) => {
   res.send(await service.getUserByUsername({ username: req.params.username }));
