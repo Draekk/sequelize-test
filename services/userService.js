@@ -1,12 +1,13 @@
 const User = require("../models/user");
 const repository = require("../repositories/userRepository");
 const utils = require("../utils/utils");
+const pm = require("../utils/passManagerUtil");
 
 async function createUser({ username, password }) {
   try {
     const user = User.build({
       username,
-      password,
+      password: pm.encryptPassword(password),
     });
     const res = await repository.save(user.dataValues);
     const data = utils.getUserFromPromise(res);
