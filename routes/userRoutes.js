@@ -7,7 +7,12 @@ const {
 } = require("../middlewares/validationMiddleware");
 
 router.use(function timelog(req, res, next) {
-  fs.appendFileSync("timelog.md", "> " + new Date().toString() + "\n");
+  fs.appendFileSync(
+    "timelog.md",
+    `> Method: ${req.method}, URL: ${req.url}, Time: ${
+      new Date().toString().split(" (")[0]
+    }` + "\n"
+  );
   next();
 });
 
