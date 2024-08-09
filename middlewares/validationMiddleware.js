@@ -51,4 +51,9 @@ function userPropertyValidation(req, res, next) {
   }
 }
 
-module.exports = { userPropertyValidation };
+async function authenticate(req, res, next) {
+  try {
+  } catch (error) {}
+}
+
+module.exports = { userPropertyValidation, authenticate };

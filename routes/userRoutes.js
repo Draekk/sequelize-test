@@ -30,4 +30,6 @@ router.put("/edit", userPropertyValidation, controller.editUser);
 
 router.delete("/delete/id/:id", controller.deleteUser);
 
+router.get("/protected", authenticate, controller.authenticateUser);
+
 module.exports = router;

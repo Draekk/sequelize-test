@@ -82,8 +82,8 @@ async function deleteUser({ id }) {
 async function loginUser({ username, password }) {
   try {
     const user = await getUserByUsername({ username });
-    if (user) {
-      return pm.comparePassword(password, user.password);
+    if (user && pm.comparePassword(password, user.password)) {
+      return user.id;
     }
     throw new Error("Invalid user");
   } catch (error) {

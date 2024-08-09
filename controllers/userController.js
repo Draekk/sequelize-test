@@ -1,4 +1,5 @@
 const service = require("../services/userService");
+const jwt = require("jsonwebtoken");
 
 async function getUsers(req, res) {
   try {
@@ -141,7 +142,8 @@ async function loginUser(req, res) {
     const username = req.body.username;
     const password = req.body.password;
     const data = await service.loginUser({ username, password });
-    if (data) {
+    if (typeof data === "number" && data > 0) {
+      const token = jwt.sign({ userId: data } /*TODO:*/);
       return res.status(200).json({
         success: data,
         message: "Logged in!",
@@ -160,6 +162,20 @@ async function loginUser(req, res) {
   }
 }
 
+function authenticateUser(req, res) {
+  try {
+    return res.status(200).json({
+      success: true,
+      message: "User validated!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   getUserById,
@@ -168,4 +184,5 @@ module.exports = {
   editUser,
   deleteUser,
   loginUser,
+  authenticateUser,
 };
