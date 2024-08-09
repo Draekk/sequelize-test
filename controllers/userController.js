@@ -1,3 +1,4 @@
+require("dotenv").config();
 const service = require("../services/userService");
 const jwt = require("jsonwebtoken");
 
@@ -142,11 +143,19 @@ async function loginUser(req, res) {
     const username = req.body.username;
     const password = req.body.password;
     const data = await service.loginUser({ username, password });
-    if (typeof data === "number" && data > 0) {
-      const token = jwt.sign({ userId: data } /*TODO:*/);
+    if (data) {
+      const token = jwt.sign(
+        { userId: data.id, username: data.username },
+        process.env.JWT_PASSWORD,
+        {
+          expiresIn: "1h",
+        }
+      );
       return res.status(200).json({
-        success: data,
+        success: true,
         message: "Logged in!",
+        data,
+        token,
       });
     } else {
       return res.status(401).json({
