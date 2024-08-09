@@ -37,9 +37,7 @@ async function findByUsername(username) {
   try {
     return await User.findAll({
       where: {
-        username: {
-          [Op.substring]: username,
-        },
+        username,
       },
     });
   } catch (error) {

@@ -12,6 +12,9 @@ const cPassword = document.querySelector("#create-user input:nth-child(2)");
 const cButton = document.querySelector("#create-user button");
 const dId = document.querySelector("#delete-user input");
 const dButton = document.querySelector("#delete-user button");
+const lUsername = document.querySelector("#login-user input:nth-child(1)");
+const lPassword = document.querySelector("#login-user input:nth-child(2)");
+const lButton = document.querySelector("#login-user button");
 
 btnGetAll.addEventListener("click", async () => {
   console.log(await fetchGetAll());
@@ -36,6 +39,10 @@ cButton.addEventListener("click", async () => {
 
 dButton.addEventListener("click", async () => {
   console.log(await fetchDelete());
+});
+
+lButton.addEventListener("click", async () => {
+  console.log(await fetchLogin());
 });
 
 async function fetchGetAll() {
@@ -97,5 +104,20 @@ async function fetchDelete() {
     method: "DELETE",
   });
   const data = res.json();
+  return data;
+}
+
+async function fetchLogin() {
+  const res = await fetch("/api/user/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: lUsername.value,
+      password: lPassword.value,
+    }),
+  });
+  const data = await res.json();
   return data;
 }

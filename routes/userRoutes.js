@@ -19,6 +19,8 @@ router.get("/find/username/:username", controller.getUsersByUsername);
 
 router.post("/create", userPropertyValidation, controller.createUser);
 
+router.post("/login", userPropertyValidation, controller.loginUser);
+
 router.put("/edit", userPropertyValidation, controller.editUser);
 
 router.delete("/delete/id/:id", controller.deleteUser);

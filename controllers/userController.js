@@ -136,6 +136,30 @@ async function deleteUser(req, res) {
   }
 }
 
+async function loginUser(req, res) {
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+    const data = await service.loginUser({ username, password });
+    if (data) {
+      return res.status(200).json({
+        success: data,
+        message: "Logged in!",
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials...",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   getUserById,
@@ -143,4 +167,5 @@ module.exports = {
   createUser,
   editUser,
   deleteUser,
+  loginUser,
 };

@@ -44,7 +44,9 @@ async function getUserById({ id }) {
 async function getUserByUsername({ username }) {
   try {
     const res = await repository.findByUsername(username);
-    return res.length > 0 ? res.map((e) => utils.getUserFromPromise(e)) : null;
+    return res.length > 0
+      ? res.map((e) => utils.getUserFromPromise(e))[0]
+      : null;
   } catch (error) {
     console.error("An error has occurred:", error);
     return null;
@@ -77,6 +79,19 @@ async function deleteUser({ id }) {
   }
 }
 
+async function loginUser({ username, password }) {
+  try {
+    const user = await getUserByUsername({ username });
+    if (user) {
+      return pm.comparePassword(password, user.password);
+    }
+    throw new Error("Invalid user");
+  } catch (error) {
+    console.error("An error has occurred:", error);
+    return null;
+  }
+}
+
 module.exports = {
   createUser,
   getUsers,
@@ -84,4 +99,5 @@ module.exports = {
   getUserByUsername,
   editUser,
   deleteUser,
+  loginUser,
 };
