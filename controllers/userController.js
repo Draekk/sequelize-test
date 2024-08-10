@@ -144,18 +144,18 @@ async function loginUser(req, res) {
     const password = req.body.password;
     const data = await service.loginUser({ username, password });
     if (data) {
-      const token = jwt.sign(
-        { userId: data.id, username: data.username },
-        process.env.JWT_PASSWORD,
-        {
-          expiresIn: "1h",
-        }
-      );
+      const token = jwt.sign({ userId: data.id }, process.env.JWT_PASSWORD, {
+        expiresIn: "1h",
+      });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 3600000,
+      });
       return res.status(200).json({
         success: true,
         message: "Logged in!",
         data,
-        token,
       });
     } else {
       return res.status(401).json({
