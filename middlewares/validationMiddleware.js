@@ -1,3 +1,6 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 function userPropertyValidation(req, res, next) {
   try {
     const props = Object.keys(req.body);
@@ -51,6 +54,20 @@ function userPropertyValidation(req, res, next) {
   }
 }
 
-async function authenticate(req, res, next) {}
+function authenticate(req, res, next) {
+  try {
+    const token = req.cookies.token;
+    jwt.verify(token, process.env.JWT_PASSWORD, (err, decoded) => {
+      if (err) return res.status(401).json({ message: "Invalid token..." });
+      req.user = decoded;
+      next();
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+}
 
 module.exports = { userPropertyValidation, authenticate };

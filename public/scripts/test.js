@@ -42,7 +42,10 @@ dButton.addEventListener("click", async () => {
 });
 
 lButton.addEventListener("click", async () => {
-  console.log(await fetchLogin());
+  const data = await fetchLogin();
+  if (data) {
+    window.location.href = "templates/index2.html";
+  }
 });
 
 async function fetchGetAll() {

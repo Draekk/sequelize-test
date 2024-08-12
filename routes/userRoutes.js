@@ -4,6 +4,7 @@ const router = express.Router();
 const controller = require("../controllers/userController");
 const {
   userPropertyValidation,
+  authenticate,
 } = require("../middlewares/validationMiddleware");
 
 router.use(function timelog(req, res, next) {
@@ -29,7 +30,5 @@ router.post("/login", userPropertyValidation, controller.loginUser);
 router.put("/edit", userPropertyValidation, controller.editUser);
 
 router.delete("/delete/id/:id", controller.deleteUser);
-
-router.get("/protected", controller.authenticateUser);
 
 module.exports = router;
